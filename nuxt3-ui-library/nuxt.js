@@ -7,7 +7,7 @@ export default defineNuxtModule({
       // Add ./components dir to the list
       dirs.push({
         path: resolve("./components"),
-        prefix: "ui",
+        prefix: "ui-library",
       });
     },
   },
