@@ -1,0 +1,25 @@
+{
+  "name": "nuxt3-ui-library",
+  "version": "1.0.0",
+  "description": "A library of reusable nuxt3 components",
+  "main": "nuxt.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/harikrishnan-p-v/nuxt3-ui-library.git"
+  },
+  "keywords": [
+    "nuxt3",
+    "ui",
+    "vue3",
+    "components"
+  ],
+  "author": "Harikrishnan_PV",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/harikrishnan-p-v/nuxt3-ui-library/issues"
+  },
+  "homepage": "https://github.com/harikrishnan-p-v/nuxt3-ui-library#readme"
+}
