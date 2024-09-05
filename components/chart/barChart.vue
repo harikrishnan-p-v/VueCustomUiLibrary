@@ -40,27 +40,27 @@ const props = defineProps({
     xAxisTitle: {
         type: String,
         required: false,
-        default: ""
+        default: () => ""
     },
     yAxisTitle: {
         type: String,
         required: false,
-        default: ""
+        default: () => ""
     },
     xAxisTitleFontSize: {
         type: Number,
         required: false,
-        default: 12
+        default: () => 12
     },
     yAxisTitleFontSize: {
         type: Number,
         required: false,
-        default: 12
+        default: () => 12
     },
     yAxisStepSize: {
         type: Number,
         required: false,
-        default: 10
+        default: () => 10
     }
 });
 

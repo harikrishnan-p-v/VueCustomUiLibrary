@@ -18,7 +18,7 @@ interface dataSet {
 
 // Defining the props for the graph
 const props = defineProps({
-    riskDataSets: {
+    scatterDataSets: {
         type: Array as PropType<dataSet[]>,
         require: false,
         default: () => [
@@ -49,32 +49,32 @@ const props = defineProps({
     xAxisTitle: {
         type: String,
         required: false,
-        default: "x-axis"
+        default: () => "x-axis"
     },
     yAxisTitle: {
         type: String,
         required: false,
-        default: "y-axis"
+        default: () => "y-axis"
     },
     xAxisTitleFontSize: {
         type: Number,
         required: false,
-        default: 12
+        default: () => 12
     },
     yAxisTitleFontSize: {
         type: Number,
         required: false,
-        default: 12
+        default: () => 12
     },
     xAxisStepSize: {
         type: Number,
         required: false,
-        default: 2
+        default: () => 2
     },
     yAxisStepSize: {
         type: Number,
         required: false,
-        default: 2
+        default: () => 2
     }
 });
 
@@ -94,7 +94,7 @@ onMounted(() => {
     new Chart(ctx, {
         type: 'scatter',
         data: {
-            datasets: props.riskDataSets
+            datasets: props.scatterDataSets
         },
         options: {
             responsive: true,
