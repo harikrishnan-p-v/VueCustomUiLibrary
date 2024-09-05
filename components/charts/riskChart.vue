@@ -1,51 +1,60 @@
 <script setup lang="ts">
-import { Chart, CategoryScale, BarController, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { ref, computed, onMounted, type PropType } from 'vue';
+import { Chart, ScatterController, PointElement, LinearScale, Title, Tooltip } from 'chart.js';
+import { ref, onMounted, type PropType } from 'vue';
+
+interface data {
+    x: number,
+    y: number,
+    description: string
+}
 
 interface dataSet {
     label: string,
-    data: number[],
+    data: data[],
     backgroundColor: string,
-    barThickness: number,
-    borderRadius: number,
+    pointRadius: number,
+    pointHoverRadius: number,
 }
 
 // Defining the props for the graph
 const props = defineProps({
-    barXaxisLables: {
-        type: Array as PropType<string[]>,
-        require: false,
-        default: () => ["test1", "test2"]
-    },
-    barDataSets: {
+    riskDataSets: {
         type: Array as PropType<dataSet[]>,
         require: false,
         default: () => [
             {
                 label: 'testData1',
-                data: [20, 45],
+                data: [{
+                    x: 8,
+                    y: 4,
+                    description: 'test1'
+                }],
                 backgroundColor: '#C2B8EE',
-                barThickness: 25,
-                borderRadius: 6,
+                pointRadius: 25,
+                pointHoverRadius: 26,
             },
             {
                 label: 'testData2',
-                data: [35, 82],
+                data: [{
+                    x: 5,
+                    y: 6,
+                    description: 'test2'
+                }],
                 backgroundColor: '#8C7BD6',
-                barThickness: 25,
-                borderRadius: 6
+                pointRadius: 5,
+                pointHoverRadius: 6,
             },
         ]
     },
     xAxisTitle: {
         type: String,
         required: false,
-        default: ""
+        default: "x-axis"
     },
     yAxisTitle: {
         type: String,
         required: false,
-        default: ""
+        default: "y-axis"
     },
     xAxisTitleFontSize: {
         type: Number,
@@ -57,16 +66,17 @@ const props = defineProps({
         required: false,
         default: 12
     },
+    xAxisStepSize: {
+        type: Number,
+        required: false,
+        default: 2
+    },
     yAxisStepSize: {
         type: Number,
         required: false,
-        default: 10
+        default: 2
     }
 });
-
-const barHighestValue = computed(() => {
-    return Math.ceil(Math.max(...props.barDataSets.flatMap((dataSet) => dataSet.data)) / 10) * 10;
-})
 
 // Define the component
 const myChart = ref<HTMLCanvasElement | null>(null);
@@ -78,19 +88,19 @@ onMounted(() => {
     if (!ctx) return;
 
     // Register Chart.js elements
-    Chart.register(CategoryScale, BarController, LinearScale, BarElement, Title, Tooltip, Legend);
+    Chart.register(ScatterController, PointElement, LinearScale, Title, Tooltip);
 
     // Create the chart
     new Chart(ctx, {
-        type: 'bar',
+        type: 'scatter',
         data: {
-            labels: props.barXaxisLables,
-            datasets: props.barDataSets
+            datasets: props.riskDataSets
         },
         options: {
             responsive: true,
             scales: {
                 x: {
+                    type: 'linear',
                     title: {
                         display: true,
                         text: props.xAxisTitle,
@@ -99,34 +109,47 @@ onMounted(() => {
                             weight: "bold"
                         }
                     },
-                    beginAtZero: true,
-                    stacked: false, // Ensure bars are side by side
-                    grid: {
-                        display: false, // Remove grid lines
+                    min: 0,
+                    max: 10,
+                    ticks: {
+                        callback: function () {
+                            return ''; // Remove numbers from x axis
+                        },
+                        stepSize: props.xAxisStepSize
                     },
                 },
                 y: {
+                    type: 'linear',
                     title: {
                         display: true,
                         text: props.yAxisTitle,
                         font: {
                             size: props.yAxisTitleFontSize,
-                            weight: "bold",
+                            weight: "bold"
                         }
                     },
-                    beginAtZero: true,
-                    max: barHighestValue.value,
+                    min: 0,
+                    max: 10,
                     ticks: {
+                        callback: function () {
+                            return ''; // Remove numbers from x axis
+                        },
                         stepSize: props.yAxisStepSize
-                    },
-                    grid: {
-                        display: false, // Remove grid lines
                     },
                 },
             },
             plugins: {
                 legend: {
                     position: 'top',
+                    display: true
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            const point = context.raw as data;
+                            return point.description;
+                        },
+                    },
                 },
             },
         },
