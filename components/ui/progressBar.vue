@@ -54,7 +54,8 @@ const progressbarClass = computed(() => {
         <div class="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
             <div :class="progressbarClass"></div>
         </div>
-        <label class="text-[12px] text-[#34465F] font-medium">{{ props.progressbarValue +
+        <label class="text-[12px] text-[#34465F] font-medium">{{ props.progressbarValue >= 100 ? 100 :
+            props.progressbarValue +
             "%"
             }}</label>
     </div>
