@@ -33,7 +33,7 @@ const props = defineProps({
 });
 
 const progressbarWidth = computed(() => {
-    return `${props.progressbarValue}%`;
+    return props.progressbarValue <= 100 ? `${props.progressbarValue}%` : '100%';
 });
 
 const progressbarClass = computed(() => {
