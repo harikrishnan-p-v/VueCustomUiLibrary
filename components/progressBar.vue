@@ -10,7 +10,7 @@ const props = defineProps({
     progressbarValue: {
         type: Number,
         required: true,
-        default: 50
+        default: () => 50
     },
     progressbarTiers: {
         type: Array as PropType<progressbarTier[]>,
